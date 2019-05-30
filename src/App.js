@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Stage } from 'react-pixi-fiber';
+import { Stage } from 'react-pixi-fiber';
 import Bird from './component/Bird';
 import './App.sass';
 
