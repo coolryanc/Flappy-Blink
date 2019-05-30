@@ -12,6 +12,9 @@ body,
     -moz-osx-font-smoothing: grayscale;
     position: relative;
     background-color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 code {

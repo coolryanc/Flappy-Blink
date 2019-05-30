@@ -4,7 +4,6 @@ import { AppContext } from './provider';
 export default class AppConsumer extends Component {
     render() {
         const { children } = this.props;
-        console.log(children);
 
         return (
             <AppContext.Consumer>

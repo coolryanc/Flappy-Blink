@@ -14,6 +14,7 @@ const DEFAULT_STATE = {
         },
         pipe: {},
     },
+    funcs: {},
 };
 
 export const AppContext = React.createContext(DEFAULT_STATE);
