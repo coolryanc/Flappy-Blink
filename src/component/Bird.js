@@ -8,6 +8,7 @@ class FlappyBird extends Component {
         super(props);
 
         this.birdFrames = [];
+        this.timer = null;
         this.state = {
             frame: 0,
         };
@@ -18,24 +19,21 @@ class FlappyBird extends Component {
         const { app } = this.props;
 
         app.loader.add(BIRD_FRAMES).load((loader, resources) => {
-            this.frameCached = resources;
             for (const key in resources) {
                 this.birdFrames.push(resources[key].texture);
             }
-            app.ticker.add(this._updateBirdFrames);
+            this.timer = setInterval(this._updateBirdFrames, 200);
         });
     }
 
     componentWillUnmount() {
-        const { app } = this.props;
-
-        app.ticker.remove(this.animate);
+        clearInterval(this.timer);
     }
 
-    _updateBirdFrames = delta => {
+    _updateBirdFrames = () => {
         if (this.birdFrames.length) {
             this.setState(state => ({
-                frame: state.frame + 0.1,
+                frame: state.frame + 1,
             }));
         }
     };
@@ -54,7 +52,7 @@ class FlappyBird extends Component {
                 {...this.props}
                 texture={birdTexture}
                 anchor={'0.5'}
-                scale={'0.16'}
+                scale={'0.1'}
             />
         );
     }

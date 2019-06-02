@@ -34,7 +34,7 @@ export default class App extends Component {
         return (
             <div id="App">
                 <Stage width={width} height={height} options={stageOptions}>
-                    <Bird x={120} y={120} />
+                    <Bird x={width / 2} y={height / 2} />
                 </Stage>
             </div>
         );
