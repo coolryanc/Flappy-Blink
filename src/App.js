@@ -1,40 +1,42 @@
 import React, { Component } from 'react';
 import { Stage } from 'react-pixi-fiber';
 import Bird from './component/Bird';
+import GameScene from './component/GameScene';
 import './App.sass';
+import { AppContext } from 'context/provider';
 
 export default class App extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            containerSize: {
-                width: 0,
-                height: 0,
-            },
-        };
-    }
+    static contextType = AppContext;
 
     componentDidMount() {
         const app = document.getElementById('App');
-        this.setState({
-            containerSize: {
-                width: parseInt(app.offsetWidth),
-                height: parseInt(app.offsetHeight),
+
+        this.context.funcs.updateAppState({
+            key: 'game',
+            payload: {
+                canvasWidth: parseInt(app.offsetWidth),
+                canvasHeight: parseInt(app.offsetHeight),
             },
         });
     }
 
     render() {
-        const { width, height } = this.state.containerSize;
+        const { game: gameState = {} } = this.context;
+        const { canvasWidth, canvasHeight } = gameState;
+
         const stageOptions = {
-            // transparent: true,
-            backgroundColor: 0x10bb99,
+            transparent: true,
+            // backgroundColor: 0x10bb99,
         };
         return (
             <div id="App">
-                <Stage width={width} height={height} options={stageOptions}>
-                    <Bird x={width / 2} y={height / 2} />
+                <Stage
+                    width={canvasWidth}
+                    height={canvasHeight}
+                    options={stageOptions}
+                >
+                    <GameScene width={canvasWidth} height={canvasHeight} />
+                    <Bird x={canvasWidth / 3} y={canvasHeight / 2} />
                 </Stage>
             </div>
         );
