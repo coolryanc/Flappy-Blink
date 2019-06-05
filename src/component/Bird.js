@@ -1,16 +1,33 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Sprite, withApp } from 'react-pixi-fiber';
+import { withApp, CustomPIXIComponent } from 'react-pixi-fiber';
 import { BIRD_FRAMES } from 'utils/assets';
+import * as PIXI from 'pixi.js';
+
+// ANIMATED component
+const TYPE = 'ANIMATED';
+const behavior = {
+    customDisplayObject: props => new PIXI.AnimatedSprite(props.textures),
+    customApplyProps: function(instance, props, nextProps) {
+        const { x, y } = nextProps;
+
+        instance.animationSpeed = 0.2;
+        instance.anchor.set(0.5);
+        instance.scale.set(0.1);
+        instance.position.x = x;
+        instance.position.y = y;
+        instance.play();
+    },
+};
+const Animated = CustomPIXIComponent(behavior, TYPE);
 
 class FlappyBird extends Component {
     constructor(props) {
         super(props);
 
-        this.birdFrames = [];
-        this.timer = null;
+        this.speedY = props.birdFallSpeed;
+        this.rate = props.birdGravity;
         this.state = {
-            frame: 0,
+            birdFrames: [],
         };
     }
 
@@ -19,48 +36,27 @@ class FlappyBird extends Component {
         const { app } = this.props;
 
         app.loader.add(BIRD_FRAMES).load((loader, resources) => {
+            const frames = [];
             for (const key in resources) {
-                this.birdFrames.push(resources[key].texture);
+                frames.push(resources[key].texture);
             }
-            this.timer = setInterval(this._updateBirdFrames, 200);
+            this.setState({
+                birdFrames: frames,
+            });
         });
     }
 
-    componentWillUnmount() {
-        clearInterval(this.timer);
-    }
-
-    _updateBirdFrames = () => {
-        if (this.birdFrames.length) {
-            this.setState(state => ({
-                frame: state.frame + 1,
-            }));
-        }
-    };
-
     render() {
-        const { frame } = this.state;
-        const textureIndex = parseInt(frame % this.birdFrames.length);
-        const birdTexture = this.birdFrames[textureIndex];
+        const { x, y } = this.props;
+        const { birdFrames } = this.state;
 
-        if (!birdTexture) {
+        if (!birdFrames.length) {
             return null;
         }
 
-        return (
-            <Sprite
-                {...this.props}
-                texture={birdTexture}
-                anchor={'0.5'}
-                scale={'0.1'}
-            />
-        );
+        return <Animated x={x} y={y} textures={birdFrames} />;
     }
 }
-
-FlappyBird.propTypes = {
-    app: PropTypes.object.isRequired,
-};
 
 const FlappyBirdWithApp = withApp(FlappyBird);
 
