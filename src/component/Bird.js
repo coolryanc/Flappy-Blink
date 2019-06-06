@@ -8,13 +8,14 @@ const TYPE = 'ANIMATED';
 const behavior = {
     customDisplayObject: props => new PIXI.AnimatedSprite(props.textures),
     customApplyProps: function(instance, props, nextProps) {
-        const { x, y } = nextProps;
+        const { x, y, rotation } = nextProps;
 
         instance.animationSpeed = 0.2;
         instance.anchor.set(0.5);
         instance.scale.set(0.1);
         instance.position.x = x;
         instance.position.y = y;
+        instance.rotation = rotation;
         instance.play();
     },
 };
@@ -24,8 +25,6 @@ class FlappyBird extends Component {
     constructor(props) {
         super(props);
 
-        this.speedY = props.birdFallSpeed;
-        this.rate = props.birdGravity;
         this.state = {
             birdFrames: [],
         };
@@ -47,14 +46,16 @@ class FlappyBird extends Component {
     }
 
     render() {
-        const { x, y } = this.props;
+        const { x, y, rotation } = this.props;
         const { birdFrames } = this.state;
 
         if (!birdFrames.length) {
             return null;
         }
 
-        return <Animated x={x} y={y} textures={birdFrames} />;
+        return (
+            <Animated x={x} y={y} textures={birdFrames} rotation={rotation} />
+        );
     }
 }
 

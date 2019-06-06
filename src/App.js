@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Stage } from 'react-pixi-fiber';
-import Bird from './component/Bird';
-import GameScene from './component/GameScene';
+import Game from './component/Game';
 import './App.sass';
 import { AppContext } from 'context/provider';
 
@@ -18,26 +16,20 @@ export default class App extends Component {
                 canvasHeight: parseInt(app.offsetHeight),
             },
         });
+
+        this.context.funcs.updateAppState({
+            key: 'bird',
+            payload: {
+                x: parseInt(app.offsetWidth) / 3,
+                y: parseInt(app.offsetHeight) / 2,
+            },
+        });
     }
 
     render() {
-        const { game: gameState = {} } = this.context;
-        const { canvasWidth, canvasHeight } = gameState;
-
-        const stageOptions = {
-            transparent: true,
-            // backgroundColor: 0x10bb99,
-        };
         return (
             <div id="App">
-                <Stage
-                    width={canvasWidth}
-                    height={canvasHeight}
-                    options={stageOptions}
-                >
-                    <GameScene width={canvasWidth} height={canvasHeight} />
-                    <Bird x={canvasWidth / 3} y={canvasHeight / 2} />
-                </Stage>
+                <Game {...this.context} />
             </div>
         );
     }

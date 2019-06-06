@@ -2,8 +2,6 @@ import { CustomPIXIComponent } from 'react-pixi-fiber';
 import React, { Component } from 'react';
 import { Container, withApp } from 'react-pixi-fiber';
 import * as PIXI from 'pixi.js';
-// context
-import { AppContext } from 'context/provider';
 
 // RECT component
 const TYPE = 'RECT';
@@ -23,7 +21,7 @@ const behavior = {
             instance.clear();
         }
 
-        instance.beginFill(fill);
+        instance.beginFill(0x2c9f45);
         instance.drawRect(x, y, width, height);
         instance.lineStyle(2, 0x000000);
         instance.endFill();
@@ -36,12 +34,10 @@ const Rect = CustomPIXIComponent(behavior, TYPE);
 // const for Pipe component
 
 class Pipe extends Component {
-    static contextType = AppContext;
-
     constructor(props) {
         super(props);
 
-        this._pipeInnerDistance = 130;
+        this._pipeInnerDistance = 230;
         this._pipeWidth = 50;
 
         this.state = {
@@ -62,12 +58,12 @@ class Pipe extends Component {
     }
 
     _reset = pos => {
-        const { width } = this.props;
+        const { canvasWidth } = this.props;
         const pipeMinHeight = 80;
         const randomNum =
             2 *
             Math.random() *
-            (width - 2 * pipeMinHeight - this._pipeInnerDistance);
+            (canvasWidth - 2 * pipeMinHeight - this._pipeInnerDistance);
 
         this.setState({
             x: pos,
@@ -76,15 +72,24 @@ class Pipe extends Component {
     };
 
     _updatePipePosition = () => {
-        const { speedX } = this.context.game;
-        const { width } = this.props;
+        const { gameSpeed, canvasWidth } = this.props;
         this.setState(
             state => ({
-                x: state.x - speedX / 60,
+                x: state.x - gameSpeed / 60,
             }),
             () => {
+                const { funcs, group } = this.props;
+                funcs.updateAppState({
+                    key: 'pipe',
+                    payload: {
+                        [group]: {
+                            x: this.state.x,
+                            y: this.state.y,
+                        },
+                    },
+                });
                 if (this.state.x < -this._pipeWidth) {
-                    this._reset(width + 20);
+                    this._reset(canvasWidth + 20);
                 }
             }
         );
@@ -96,19 +101,12 @@ class Pipe extends Component {
 
         return (
             <Container>
-                <Rect
-                    x={x}
-                    y={0}
-                    width={_pipeWidth}
-                    height={y}
-                    fill={'0x2c9f45'}
-                />
+                <Rect x={x} y={0} width={_pipeWidth} height={y} />
                 <Rect
                     x={x}
                     y={y + _pipeInnerDistance}
                     width={_pipeWidth}
                     height={500}
-                    fill={'0x2c9f45'}
                 />
             </Container>
         );
