@@ -1,35 +1,30 @@
 import React, { Component } from 'react';
-import Game from './component/Game';
+import GameScene from './component/GameScene';
 import './App.sass';
-import { AppContext } from 'context/provider';
 
 export default class App extends Component {
-    static contextType = AppContext;
+    state = {
+        canvasWidth: 0,
+        canvasHeight: 0,
+    };
 
     componentDidMount() {
         const app = document.getElementById('App');
 
-        this.context.funcs.updateAppState({
-            key: 'game',
-            payload: {
-                canvasWidth: parseInt(app.offsetWidth),
-                canvasHeight: parseInt(app.offsetHeight),
-            },
-        });
-
-        this.context.funcs.updateAppState({
-            key: 'bird',
-            payload: {
-                x: parseInt(app.offsetWidth) / 3,
-                y: parseInt(app.offsetHeight) / 2,
-            },
+        this.setState({
+            canvasWidth: parseInt(app.offsetWidth),
+            canvasHeight: parseInt(app.offsetHeight),
         });
     }
 
     render() {
+        const { canvasWidth, canvasHeight } = this.state;
+        const couldRenderGame = canvasWidth && canvasHeight;
         return (
             <div id="App">
-                <Game {...this.context} />
+                {couldRenderGame ? (
+                    <GameScene width={canvasWidth} height={canvasHeight} />
+                ) : null}
             </div>
         );
     }
