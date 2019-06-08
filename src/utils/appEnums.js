@@ -8,7 +8,7 @@ const APP_SETTING = Object.freeze({
     minPipeHeight: 150,
     pipeWidth: 70,
     pipeHeight: 300,
-    pipeHorizontalGap: 50,
+    pipeHorizontalGap: 250,
     pipeVerticalGap: 190,
 });
 

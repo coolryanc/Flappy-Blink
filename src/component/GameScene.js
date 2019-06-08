@@ -44,6 +44,7 @@ export default class GameScene extends PureComponent {
 
     _update = delta => {
         this.ground.tilePosition.x -= gameSpeed;
+        this.pipeContainer.movePipes();
     };
 
     render() {

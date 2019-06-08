@@ -1,7 +1,14 @@
 import { Container, Sprite } from 'pixi.js';
 // utils';
 import APP_SETTING from 'utils/appEnums';
-const { minPipeHeight, pipeWidth, pipeHeight, pipeVerticalGap } = APP_SETTING;
+const {
+    gameSpeed,
+    minPipeHeight,
+    pipeWidth,
+    pipeHeight,
+    pipeHorizontalGap,
+    pipeVerticalGap,
+} = APP_SETTING;
 
 class Pipe extends Sprite {
     constructor(texture, type) {
@@ -27,17 +34,46 @@ export default class PipeContainer extends Container {
         this.width = width;
         this.height = height;
 
+        // container offset
+        this.position.x = width + pipeWidth / 2;
+
         // for calculate pipe use
         this._containerWidth = width;
         this._containerHeight = height;
 
-        // for(let index = 0; index < this._PIPE_COUNT; index++) {
-        //     this.drawPipe();
-        // }
-        this.drawPipe();
+        this._drawPipe();
     }
 
-    drawPipe = () => {
+    movePipes = () => {
+        this.pipes.forEach((el, index) => {
+            const { upPipe, bottomPipe } = el;
+            upPipe.position.x -= gameSpeed;
+            bottomPipe.position.x -= gameSpeed;
+        });
+
+        this._addNewPipe();
+        this._deletePipe();
+    };
+
+    _addNewPipe = () => {
+        if (!this.pipes.length) return;
+        const { upPipe } = this.pipes[this.pipes.length - 1];
+        if (-upPipe.position.x >= pipeHorizontalGap) {
+            this._drawPipe();
+        }
+    };
+
+    _deletePipe = () => {
+        if (!this.pipes.length) return;
+
+        const firstPipe = this.pipes[0];
+        const { upPipe } = firstPipe;
+        if (upPipe.position.x + pipeWidth < -this._containerWidth) {
+            this.pipes.shift();
+        }
+    };
+
+    _drawPipe = () => {
         const pipe = {};
         const upPipe = new Pipe(this.pipeTexture, 'UP');
         const bottomPipe = new Pipe(this.pipeTexture);
@@ -48,11 +84,12 @@ export default class PipeContainer extends Container {
         upPipe.position.y = uperPos;
         bottomPipe.position.y = uperPos + pipeHeight + pipeVerticalGap;
 
-        upPipe.position.x = 110;
-        bottomPipe.position.x = 110;
+        upPipe.position.x = 0;
+        bottomPipe.position.x = 0;
 
         pipe.upper = bottomPipe.position.y + bottomPipe.height / 2;
-        pipe.bottomPipe = pipe.upper + pipeVerticalGap;
+        pipe.lower = pipe.upper + pipeVerticalGap;
+
         pipe.upPipe = upPipe;
         pipe.bottomPipe = bottomPipe;
 
