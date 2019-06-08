@@ -1,4 +1,4 @@
-import * as PIXI from 'pixi.js';
+import { AnimatedSprite } from 'pixi.js';
 import APP_SETTING from 'utils/appEnums';
 
 const {
@@ -7,8 +7,6 @@ const {
     birdVerticalPosition,
     // birdGravity,
 } = APP_SETTING;
-
-const { AnimatedSprite } = PIXI;
 
 export default class Bird extends AnimatedSprite {
     constructor(textures) {

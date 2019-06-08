@@ -1,9 +1,7 @@
-import * as PIXI from 'pixi.js';
+import { TilingSprite } from 'pixi.js';
 import APP_SETTING from 'utils/appEnums';
 
 const { groundHeight } = APP_SETTING;
-
-const { TilingSprite } = PIXI;
 
 export default class Ground extends TilingSprite {
     constructor(textures, width, height) {

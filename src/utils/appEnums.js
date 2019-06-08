@@ -5,9 +5,10 @@ const APP_SETTING = Object.freeze({
     birdVerticalPosition: 200,
     gameSpeed: 3,
     groundHeight: 100,
-    minPipeHeight: 50,
-    pipeWidth: 80,
-    pipeHeight: 500,
+    minPipeHeight: 150,
+    pipeWidth: 70,
+    pipeHeight: 300,
+    pipeHorizontalGap: 50,
     pipeVerticalGap: 190,
 });
 

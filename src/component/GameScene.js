@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import * as PIXI from 'pixi.js';
 import Bird from 'component/pixi/Bird';
 import Ground from 'component/pixi/Ground';
+import PipeContainer from 'component/pixi/PipeContainer';
 // utils
 import loadTexture from 'utils/loadTexture';
 import APP_SETTING from 'utils/appEnums';
@@ -32,8 +33,9 @@ export default class GameScene extends PureComponent {
             textures.BIRD3,
         ]);
         this.ground = new Ground(textures.GROUND, width, height);
+        this.pipeContainer = new PipeContainer(textures.PIPE, width, height);
 
-        [this.ground, this.bird].map(child =>
+        [this.pipeContainer, this.ground, this.bird].map(child =>
             this.pixiApp.stage.addChild(child)
         );
 
