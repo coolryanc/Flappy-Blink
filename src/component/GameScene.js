@@ -25,7 +25,7 @@ export default class GameScene extends PureComponent {
         this.pixiApp = new PIXI.Application({
             width,
             height,
-            backgroundColor: '0x1099bb',
+            transparent: true,
             view: this.pixiCanvas,
         });
 
