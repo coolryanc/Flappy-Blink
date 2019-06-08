@@ -17,7 +17,6 @@ export default class Bird extends AnimatedSprite {
         this.animationSpeed = 0.2;
         this.anchor.set(0.5);
         this.scale.set(0.1);
-        this.speedY = birdFallSpeed;
         this._flyArea = height;
 
         this.init();
@@ -27,6 +26,7 @@ export default class Bird extends AnimatedSprite {
         this.play();
         this.rotation = 0;
         this.isDead = false;
+        this.speedY = birdFallSpeed;
         this.position.x = birdHorizontalPosition;
         this.position.y = birdVerticalPosition;
     };

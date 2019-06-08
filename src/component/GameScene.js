@@ -48,10 +48,17 @@ export default class GameScene extends PureComponent {
 
     _update = delta => {
         const { isStarted } = this.state;
-        if (isStarted) {
-            this.ground.tilePosition.x -= gameSpeed;
-            this.bird.fall();
-            this.pipeContainer.movePipes();
+        if (!isStarted) return;
+
+        this.ground.tilePosition.x -= gameSpeed;
+        this.bird.fall();
+        this.pipeContainer.movePipes();
+
+        if (this.bird.isDead) {
+            this.gameTitle.showText();
+            this.setState({
+                isStarted: false,
+            });
         }
     };
 
@@ -63,6 +70,10 @@ export default class GameScene extends PureComponent {
             }
         } else {
             this.gameTitle.hideText();
+            if (this.bird.isDead) {
+                this.bird.init();
+                this.pipeContainer.init();
+            }
             this.setState({
                 isStarted: true,
             });

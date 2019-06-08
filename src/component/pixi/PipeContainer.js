@@ -40,8 +40,15 @@ export default class PipeContainer extends Container {
         this._containerWidth = width;
         this._containerHeight = height;
 
-        this._drawPipe();
+        this.init();
     }
+
+    init = () => {
+        const childrenCount = this.children.length;
+        if (childrenCount) this.removeChildren(0, childrenCount);
+        this.pipes = [];
+        this._drawPipe();
+    };
 
     movePipes = () => {
         this.pipes.forEach((el, index) => {
