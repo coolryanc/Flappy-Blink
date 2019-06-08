@@ -25,7 +25,6 @@ class Pipe extends Sprite {
 }
 
 export default class PipeContainer extends Container {
-    _PIPE_COUNT = 2;
     pipes = [];
 
     constructor(pipeTexture, width, height) {
@@ -57,6 +56,7 @@ export default class PipeContainer extends Container {
 
     _addNewPipe = () => {
         if (!this.pipes.length) return;
+
         const { upPipe } = this.pipes[this.pipes.length - 1];
         if (-upPipe.position.x >= pipeHorizontalGap) {
             this._drawPipe();
@@ -66,15 +66,15 @@ export default class PipeContainer extends Container {
     _deletePipe = () => {
         if (!this.pipes.length) return;
 
-        const firstPipe = this.pipes[0];
-        const { upPipe } = firstPipe;
+        const firstPipeGroup = this.pipes[0];
+        const { upPipe } = firstPipeGroup;
         if (upPipe.position.x + pipeWidth < -this._containerWidth) {
             this.pipes.shift();
         }
     };
 
     _drawPipe = () => {
-        const pipe = {};
+        const pipeGroup = {};
         const upPipe = new Pipe(this.pipeTexture, 'UP');
         const bottomPipe = new Pipe(this.pipeTexture);
 
@@ -87,14 +87,11 @@ export default class PipeContainer extends Container {
         upPipe.position.x = 0;
         bottomPipe.position.x = 0;
 
-        pipe.upper = bottomPipe.position.y + bottomPipe.height / 2;
-        pipe.lower = pipe.upper + pipeVerticalGap;
-
-        pipe.upPipe = upPipe;
-        pipe.bottomPipe = bottomPipe;
+        pipeGroup.upPipe = upPipe;
+        pipeGroup.bottomPipe = bottomPipe;
 
         this.addChild(upPipe);
         this.addChild(bottomPipe);
-        this.pipes.push(pipe);
+        this.pipes.push(pipeGroup);
     };
 }
