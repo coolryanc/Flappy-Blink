@@ -51,6 +51,10 @@ export default class BlinkDetect extends Component {
         }
     }
 
+    componentWillUnmount() {
+        cancelAnimationFrame(this.frameReq);
+    }
+
     detectionLoop = async () => {
         this.frameReq = requestAnimationFrame(this.detectionLoop);
         if (Date.now() - this.lastTime < 1000 / 10) {

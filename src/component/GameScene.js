@@ -47,6 +47,10 @@ export default class GameScene extends PureComponent {
         this.pixiApp.ticker.add(this._update);
     }
 
+    componentWillUnmount() {
+        this.pixiApp.ticker.remove(this._update);
+    }
+
     _update = delta => {
         const { isStarted } = this.state;
         if (!isStarted) return;
