@@ -1,9 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import * as PIXI from 'pixi.js';
 import Bird from 'component/pixi/Bird';
 import Ground from 'component/pixi/Ground';
 import PipeContainer from 'component/pixi/PipeContainer';
 import DisplayText from 'component/pixi/DisplayText';
+import BlinkDetect from './BlinkDetect';
 // utils
 import loadTexture from 'utils/loadTexture';
 import APP_SETTING from 'utils/appEnums';
@@ -62,13 +63,9 @@ export default class GameScene extends PureComponent {
         }
     };
 
-    birdFly = () => {
+    gameStart = () => {
         const { isStarted } = this.state;
-        if (isStarted) {
-            if (this.bird) {
-                this.bird.fly();
-            }
-        } else {
+        if (!isStarted) {
             this.gameTitle.hideText();
             if (this.bird.isDead) {
                 this.bird.init();
@@ -80,13 +77,25 @@ export default class GameScene extends PureComponent {
         }
     };
 
+    birdFly = () => {
+        const { isStarted } = this.state;
+        if (isStarted) {
+            if (this.bird) {
+                this.bird.fly();
+            }
+        }
+    };
+
     render() {
         return (
-            <canvas
-                id="game"
-                ref={ref => (this.pixiCanvas = ref)}
-                onTouchStart={this.birdFly}
-            />
+            <Fragment>
+                <BlinkDetect birdFly={this.birdFly} />
+                <canvas
+                    id="game"
+                    ref={ref => (this.pixiCanvas = ref)}
+                    onTouchStart={this.gameStart}
+                />
+            </Fragment>
         );
     }
 }

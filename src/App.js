@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import GameScene from './component/GameScene';
-import BlinkDetect from './component/BlinkDetect';
 import 'sass/App.sass';
 
 export default class App extends Component {
@@ -23,7 +22,6 @@ export default class App extends Component {
         const couldRenderGame = canvasWidth && canvasHeight;
         return (
             <div id="App">
-                <BlinkDetect />
                 {couldRenderGame ? (
                     <GameScene width={canvasWidth} height={canvasHeight} />
                 ) : null}
