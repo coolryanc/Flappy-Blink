@@ -98,6 +98,7 @@ export default class GameScene extends PureComponent {
                     id="game"
                     ref={ref => (this.pixiCanvas = ref)}
                     onTouchStart={this.gameStart}
+                    onClick={this.gameStart}
                 />
             </Fragment>
         );
