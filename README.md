@@ -6,16 +6,16 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Develop
 ```bash
 # install dependencies
-$ yarn
+$ npm i
 # serve with hot reload at localhost:3000
-$ yarn start
+$ npm run start
 ```
 
 ## Build
 ``` bash
 # install dependencies
-$ yarn
+$ npm i
 
 # build for production
-$ yarn build
+$ npm run build
 ```

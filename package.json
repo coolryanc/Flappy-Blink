@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@tensorflow/tfjs-core": "1.2.9",
+    "@tensorflow/tfjs-node": "1.2.9",
     "face-api.js": "^0.20.0",
     "husky": "^2.3.0",
     "lint-staged": "^8.1.7",
